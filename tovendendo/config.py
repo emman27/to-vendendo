@@ -11,6 +11,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL',
         'postgres://postgres@127.0.0.1/tovendendo_dev')
+    UPLOAD_FOLDER = os.path.join(os.getcwd(), 'data/')
 
 
 class ProductionConfig(Config):
