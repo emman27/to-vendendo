@@ -3,5 +3,5 @@ python:
   - "3.6"
 install: "pip install -r requirements.txt"
 script:
-  - pytest tests
-  - coverage run tests
+  - pytest -v --cov=tovendendo tests
+  - codecov
