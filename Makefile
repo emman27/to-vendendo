@@ -23,9 +23,11 @@ clean:
 
 create-db:
 	@psql -c "CREATE DATABASE tovendendo_dev;"
+	@psql -c "CREATE DATABASE tovendendo_test;"
 
 drop-db:
 	@psql -c "DROP DATABASE tovendendo_dev;"
+	@psql -c "DROP DATABASE tovendendo_test;"
 
 init-db:
 	@python manage.py db init

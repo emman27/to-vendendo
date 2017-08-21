@@ -4,3 +4,4 @@
 .coverage
 .cache
 data/
+coverage.xml

@@ -10,7 +10,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY', 'MINHA-AVO')
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL',
-        'postgres://postgres@127.0.0.1/tovendendo_dev')
+        'postgres://postgres@127.0.0.1/tovendendo')
     UPLOAD_FOLDER = os.path.join(os.getcwd(), 'data/')
 
 
@@ -21,11 +21,12 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'postgres://postgres@127.0.0.1/tovendendo_dev')
 
 
-class TestConfig(Config):
-    DEVELOPMENT = True
-    DEBUG = True
+class TestConfig(DevelopmentConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'postgres://postgres@127.0.0.1/tovendendo_test'
     CSRF_ENABLED = False
