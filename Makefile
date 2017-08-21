@@ -22,8 +22,8 @@ clean:
 	@find . -name __pycache__ -delete
 
 create-db:
-	@psql -c "CREATE DATABASE tovendendo_dev;"
-	@psql -c "CREATE DATABASE tovendendo_test;"
+	@psql -c "CREATE DATABASE tovendendo_dev;" -U postgres
+	@psql -c "CREATE DATABASE tovendendo_test;" -U postgres
 
 drop-db:
 	@psql -c "DROP DATABASE tovendendo_dev;"
