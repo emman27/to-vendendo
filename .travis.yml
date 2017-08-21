@@ -1,7 +1,10 @@
 language: python
 python:
   - "3.6"
-install: "pip install -r requirements.txt"
+install:
+  - make install
+  - make create-db
+  - make migrate
 script:
   - pytest -v --cov=tovendendo tests
   - codecov
