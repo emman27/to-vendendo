@@ -15,7 +15,7 @@ help:
 	@echo ''
 
 coverage:
-	@@pytest --cov=tovendendo tests/ --cov-branch
+	@pytest --cov=tovendendo tests/ --cov-branch
 
 clean:
 	@find . -name *.pyc -delete
