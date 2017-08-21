@@ -1,11 +1,7 @@
 from tovendendo.db import db
 from sqlalchemy_utils import ChoiceType
-from flask_admin.contrib.sqla import ModelView
-from flask_admin.form import ImageUploadField
-from flask_admin.model.fields import InlineFieldList
-import os
-from flask import Markup
 from flask_uploads import UploadSet, IMAGES
+
 
 items = db.Table(
     'categories_items',
@@ -72,38 +68,3 @@ class Picture(db.Model):
         if self.filename is None:
             return
         return images.path(self.filename)
-
-
-def _list_thumbnail(view, context, model, name):
-    if not model.pictures:
-        return ''
-
-    return Markup(
-        '<img src="{model.pictures}" style="width: 150px;">'.format(model=model)
-    )
-
-
-class ItemView(ModelView):
-    form_choices = {'age': Item.TYPES}
-    column_hide_backrefs = False
-    column_list = ('name', 'price', 'available_on', 'quantity', 'categories', 'pictures')
-    form_extra_fields = {
-        'pictures': InlineFieldList(
-            ImageUploadField('Picture', base_path='data/images', url_relative_path='images/',))}
-    column_formatters = {
-        'pictures': _list_thumbnail
-    }
-
-    def create_model(self, form):
-        base_path = 'data/' # os.path.join(os.getcwd(), 'data/')
-
-        # import pdb; pdb.set_trace()
-
-        pictures = []
-        for picture in form.pictures.data:
-            filename = base_path + picture.filename
-            picture.save(filename)
-            pictures.append(Picture(name=picture.filename, filename=filename))
-
-        form.pictures = pictures
-        super(ItemView, self).create_model(form)
