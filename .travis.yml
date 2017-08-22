@@ -4,7 +4,6 @@ python:
 install:
   - make install
   - make create-db
-  - make migrate
 script:
   - pytest -v --cov=tovendendo tests
   - codecov
