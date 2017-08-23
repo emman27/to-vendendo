@@ -44,6 +44,7 @@ class ItemView(ModelView):
         return login.current_user.is_authenticated
 
 
+# TODO create structure to is_accessible - to avoid duplicated code
 class CategoryView(ModelView):
     def is_accessible(self):
         return login.current_user.is_authenticated

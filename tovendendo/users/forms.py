@@ -1,32 +1,34 @@
-from wtforms import form, fields, validators
-from tovendendo.users.models import User
-from werkzeug.security import check_password_hash
+from wtforms import form
+from wtforms.fields import StringField, PasswordField
+from wtforms.validators import InputRequired, Email, ValidationError
+from wtforms.fields.html5 import EmailField, TelField
+
 from tovendendo.db import db
+from tovendendo.users.models import User
 
 
 class LoginForm(form.Form):
-    email = fields.StringField(validators=[validators.required()])
-    password = fields.PasswordField(validators=[validators.required()])
-
-    def validate_login(self, field):
-        email = self.get_email()
-
-        if email is None:
-            raise validators.ValidationError('Invalid email')
-
-        if not check_password_hash(email.password, self.password.data):
-            raise validators.ValidationError('Invalid password')
+    email = EmailField(validators=[
+                        InputRequired(),
+                        Email('This field requires a valid email address')])
+    password = PasswordField(validators=[InputRequired()])
 
     def get_user(self):
         return db.session.query(User).filter_by(email=self.email.data).first()
 
 
 class RegistrationForm(form.Form):
-    name = fields.StringField()
-    email = fields.StringField(validators=[validators.required()])
-    password = fields.PasswordField(validators=[validators.required()])
-    phone_number = fields.StringField()
+    name = StringField()
+    email = EmailField(validators=[
+                        InputRequired(),
+                        Email('This field requires a valid email address')])
+    password = PasswordField(validators=[InputRequired()])
+    phone_number = TelField()
 
-    def validate_login(self, field):
-        if db.session.query(User).filter_by(login=self.login.data).count() > 0:
-            raise validators.ValidationError('Duplicate username')
+    def validate_email(self, field):
+        if db.session.query(User).filter_by(email=self.email.data).count() > 0:
+            raise ValidationError('Email already used')
+
+    def validate_phone_number(self, field):
+        if db.session.query(User).filter_by(phone_number=self.phone_number.data).count() > 0:
+            raise ValidationError('Phone number already used')

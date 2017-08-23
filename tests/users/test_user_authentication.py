@@ -1,23 +1,11 @@
-from tovendendo.users.models import User
 import pytest
-
-
-@pytest.fixture
-def user(session):
-    new_user = User(email='ana@testando.com', password='1234')
-    session.add(new_user)
-    session.commit()
-
-    yield new_user
-
-    new_user.query.delete()
 
 
 def test_admin_index_show_login_form_when_user_is_not_logged(client, user, request):
     request.form = {}
     response = client.get('/admin', follow_redirects=True)
 
-    email_input = '<input id="email" name="email" type="text" value="">'
+    email_input = '<input id="email" name="email" type="email" value="">'
     password_input = '<input id="password" name="password" type="password" value="">'
 
     assert response.status_code == 200
@@ -62,9 +50,9 @@ def test_login_not_sucessful_with_invalid_user(client, user):
 def test_logout_sucessful(client, user):
     data = dict(email=user.email, password=user.password)
     client.post('/admin/login/', data=data, follow_redirects=True)
-    response = client.get('/admin/logout/', data=data, follow_redirects=True)
+    response = client.get('/admin/logout/', follow_redirects=True)
 
-    email_input = '<input id="email" name="email" type="text" value="">'
+    email_input = '<input id="email" name="email" type="email" value="">'
     password_input = '<input id="password" name="password" type="password" value="">'
 
     assert response.status_code == 200
@@ -83,9 +71,9 @@ def test_register(client):
     response = client.get('/admin/register/', follow_redirects=True)
 
     name_input = '<input id="name" name="name" type="text" value="">'
-    email_input = '<input id="email" name="email" type="text" value="">'
+    email_input = '<input id="email" name="email" type="email" value="">'
     password_input = '<input id="password" name="password" type="password" value="">'
-    phone_number_input = '<input id="phone_number" name="phone_number" type="text" value="">'
+    phone_number_input = '<input id="phone_number" name="phone_number" type="tel" value="">'
 
     assert response.status_code == 200
     assert name_input in str(response.data)

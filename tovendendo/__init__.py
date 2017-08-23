@@ -1,8 +1,8 @@
 import os
 from tovendendo.portal.views import portal
 from tovendendo.db import db
-from tovendendo.users.models import User, UserAdminView
-from tovendendo.users.views import AuthenticationView
+from tovendendo.users.models import User
+from tovendendo.users.views import UserAdminView, AuthenticationView
 from tovendendo.items.models import Item, Category, images
 from tovendendo.items.views import ItemView, CategoryView
 from flask import Flask
@@ -36,8 +36,8 @@ def init_login():
 init_login()
 
 admin = Admin(app, name='tovendendo', index_view=AuthenticationView(), template_mode='bootstrap3')
-admin.add_view(UserAdminView(User, db.session))
 admin.add_view(ItemView(Item, db.session))
 admin.add_view(CategoryView(Category, db.session))
+admin.add_view(UserAdminView(User, db.session))
 
 app.register_blueprint(portal)

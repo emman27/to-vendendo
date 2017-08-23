@@ -6,10 +6,19 @@ from werkzeug.security import generate_password_hash
 from tovendendo.users.forms import LoginForm, RegistrationForm
 from tovendendo.users.models import User
 from tovendendo.db import db
+from flask_admin.contrib.sqla import ModelView
+
+
+class UserAdminView(ModelView):
+    form = RegistrationForm
+    column_searchable_list = ('name', 'email')
+    column_exclude_list = ('password')
+
+    def is_accessible(self):
+        return login.current_user.is_authenticated
+
 
 # TODO move to appropriate folder (admin?)
-
-
 class AuthenticationView(admin.AdminIndexView):
 
     @expose('/')
