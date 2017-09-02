@@ -55,16 +55,3 @@ class Picture(db.Model):
     name = db.Column(db.String(), unique=True)
     filename = db.Column(db.String(128), unique=True)
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
-
-    def __repr__(self):
-        return '%r' % (self.filename)
-
-    @property
-    def url(self):
-        return images.url(self.filename)
-
-    @property
-    def filepath(self):
-        if self.filename is None:
-            return
-        return images.path(self.filename)

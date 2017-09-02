@@ -67,7 +67,7 @@ def test_logout_with_not_logged_user(client):
     assert response.status_code == 200
 
 
-def test_register(client):
+def test_register_screen(client):
     response = client.get('/admin/register/', follow_redirects=True)
 
     name_input = '<input id="name" name="name" type="text" value="">'
@@ -81,6 +81,32 @@ def test_register(client):
     assert password_input in str(response.data)
     assert phone_number_input in str(response.data)
     assert 'Click here to log in' in str(response.data)
+
+
+def test_redirect_when_user_is_sucessful_registered(client, db, session):
+    data = {
+        'name': 'Ana',
+        'email': 'oi@ana.com',
+        'password': 'blabla',
+        'phone_number': 123123123
+    }
+    response = client.post('/admin/register/', data=data)
+
+    assert response.status_code == 302
+    assert response.location == 'http://localhost/admin/'
+
+
+def test_stay_on_register_page_when_is_not_allowed_to_register(client, db, session):
+    data = {
+        'name': 'Ana',
+        'email': None,
+        'password': None,
+        'phone_number': 123123123
+    }
+    response = client.post('/admin/register/', data=data)
+
+    assert response.status_code == 200
+    assert not response.location
 
 
 @pytest.mark.parametrize('view', ['item', 'user', 'category'])
