@@ -17,7 +17,7 @@ Flask-SQLAlchemy==2.2
 Flask-Testing==0.6.2
 Flask-Uploads==0.2.1
 Flask-WTF==0.14.2
-idna==2.5
+idna==2.6
 image==1.5.11
 infinity==1.4
 intervals==0.8.0
