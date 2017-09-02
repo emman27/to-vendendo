@@ -6,4 +6,5 @@
 data/
 coverage.xml
 .idea/
-htmlcov
+htmlcov/
+.vscode/
