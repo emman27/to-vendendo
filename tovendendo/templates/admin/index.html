@@ -1,9 +1,50 @@
 {% extends 'admin/master.html' %}
 
-{% block body %}
-  <p>Hello world</p>
+{% block access_control %}
+{% if current_user.is_authenticated %}
+<div class="btn-group pull-right">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+      <i class="icon-user"></i> {{ current_user.name }} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{{ url_for('admin.logout_view') }}">Log out</a></li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
 
+{% block body %}
   <!-- TODO add full text search -->
   <!-- TODO add graphs -->
+
+  <div>
+        {% if current_user.is_authenticated %}
+
+        <p class="lead">
+            Welcome
+        </p>
+
+        {% else %}
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() if form.hidden_tag }}
+            {% for f in form if f.type != 'CSRFTokenField' %}
+            <div>
+            {{ f.label }}
+            {{ f }}
+            {% if f.errors %}
+            <ul>
+                {% for e in f.errors %}
+                <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            </div>
+            {% endfor %}
+            <button class="btn" type="submit">Submit</button>
+        </form>
+        {{ link | safe }}
+        {% endif %}
+    </div>
 
 {% endblock %}

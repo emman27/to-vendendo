@@ -15,17 +15,19 @@ help:
 	@echo ''
 
 coverage:
-	@@pytest --cov=tovendendo tests/ --cov-branch
+	@pytest --cov=tovendendo tests/ --cov-branch
 
 clean:
 	@find . -name *.pyc -delete
 	@find . -name __pycache__ -delete
 
 create-db:
-	@psql -c "CREATE DATABASE tovendendo_dev;"
+	@psql -c "CREATE DATABASE tovendendo_dev;" -U postgres
+	@psql -c "CREATE DATABASE tovendendo_test;" -U postgres
 
 drop-db:
 	@psql -c "DROP DATABASE tovendendo_dev;"
+	@psql -c "DROP DATABASE tovendendo_test;"
 
 init-db:
 	@python manage.py db init

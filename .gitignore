@@ -3,3 +3,8 @@
 .env
 .coverage
 .cache
+data/
+coverage.xml
+.idea/
+htmlcov/
+.vscode/
