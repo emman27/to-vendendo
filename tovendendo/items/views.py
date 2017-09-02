@@ -1,10 +1,6 @@
 import flask_login as login
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.model.fields import InlineFieldList
-from flask_admin.form import ImageUploadField
-from flask import Markup
-
-from tovendendo.items.models import Item, Picture
+from tovendendo.items.models import Item
 
 
 class ItemView(ModelView):

@@ -14,8 +14,5 @@ class User(db.Model, login.UserMixin):
             'md5_crypt'
         ]), nullable=False, info={'label': 'Password'})
 
-    #def __unicode__(self):
-    #    return self.email
-
     def __repr__(self):
         return self.email
