@@ -53,7 +53,7 @@ requests==2.18.4
 simplegeneric==0.8.1
 six==1.11.0
 SQLAlchemy==1.1.14
-SQLAlchemy-Utils==0.32.16
+SQLAlchemy-Utils==0.32.17
 traitlets==4.3.2
 urllib3==1.22
 validators==0.12.0
