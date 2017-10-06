@@ -28,6 +28,8 @@ class DevelopmentConfig(Config):
 
 class TestConfig(DevelopmentConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgres://postgres@127.0.0.1/tovendendo_test'
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'TEST_DATABASE_URL',
+        'postgres://postgres@127.0.0.1/tovendendo_test')
     CSRF_ENABLED = False
     WTF_CSRF_ENABLED = False
